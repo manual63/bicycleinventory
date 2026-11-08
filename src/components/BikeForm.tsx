@@ -1,6 +1,5 @@
 import { Button, Chip, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useBikeStore } from "../store/bikeStore";
 import { bikeBrands, bikeTypeLabels, frameMaterialLabels, type NewBike } from "../types/bike";
 import { AutocompleteController } from "./Controllers/Autocomplete.controller";
 import { SelectController } from "./Controllers/Select.controller";
@@ -9,8 +8,13 @@ import { SwitchController } from "./Controllers/Switch.controller";
 // List of popular bike brands
 const popularBrands = ["Pivot", "Trek", "Specialized"];
 
-const AddBikeForm = () => {
-  const addBike = useBikeStore((s) => s.addBike);
+type BikeFormProps = {
+  initialValues?: Partial<NewBike>;
+  onSubmit: (data: NewBike) => void;
+  buttonText?: string;
+};
+
+const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProps) => {
 
   const {
     register,
@@ -19,12 +23,12 @@ const AddBikeForm = () => {
     formState: { errors },
     control,
   } = useForm<NewBike>({
-    defaultValues: { isElectric: false },
+    defaultValues: { isElectric: false, ...initialValues },
   });
 
-  const onSubmit = (data: NewBike) => {
+  const handleValid = (data: NewBike) => {
     console.log("Submitting new bike:", data);
-    addBike(data);
+    onSubmit(data);
     reset();
   };
 
@@ -48,7 +52,7 @@ const AddBikeForm = () => {
   const frameMaterialOptions = Object.entries(frameMaterialLabels).map(([value, label]) => ({ value, label }));
 
   return (
-    <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={2} sx={{ my: 2 }}>
+    <Stack component="form" onSubmit={handleSubmit(handleValid)} spacing={2} sx={{ my: 2 }}>
       <AutocompleteController
         name="brand"
         control={control}
@@ -104,10 +108,10 @@ const AddBikeForm = () => {
         control={control}
       />
       <Button type="submit" variant="contained">
-        Add Bike
+        {buttonText}
       </Button>
     </Stack>
   );
 };
 
-export default AddBikeForm;
+export default BikeForm;

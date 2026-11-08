@@ -42,3 +42,5 @@ export const bikeBrands = [
   "Ibis",
   "Norco"
 ] as const;
+
+export const toNewBike = ({ id, ...rest }: Bike): NewBike => rest;

@@ -1,13 +1,14 @@
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardContent, Stack, Typography } from "@mui/material";
 import { useBikeStore } from "../store/bikeStore";
 import { bikeTypeLabels, frameMaterialLabels, type Bike } from "../types/bike";
 
 type BikeCardProps = {
   bike: Bike;
+  onEdit: (bike: Bike) => void;
 };
 
-const BikeCard = ({ bike }: BikeCardProps) => {
+const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
 
   const handleDelete = () => {
     useBikeStore.getState().removeBike(bike.id);
@@ -23,12 +24,17 @@ const BikeCard = ({ bike }: BikeCardProps) => {
         {bike.serialNumber && (
           <Typography variant="body2">Serial Number: {bike.serialNumber}</Typography>
         )}
-        <Button variant="contained" color="error" onClick={handleDelete}>
-          Delete
-        </Button>
+        <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+          <Button variant="contained" color="primary" onClick={() => onEdit && onEdit(bike)}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Stack>
       </CardContent>
     </Card>
   );
-};
+}
 
 export default BikeCard;
