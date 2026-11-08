@@ -1,4 +1,4 @@
-# Guideline for Shad
+# This application is being used to help learn the following important skills for modern React Development.
 
 ### TypeScript
 
