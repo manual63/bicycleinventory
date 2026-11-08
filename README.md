@@ -6,15 +6,15 @@ Learn Typescript a bit deeper by exploring advanced types and patterns that are 
 
 - Mapped types **(In Progress)**
 - Conditional types
-- Record type
-- Generics
-- Utility types
+- Record type **(Done)**
+- Generics **(In Progress)**
+- Utility types **(In Progress)**
 
 ### Advanced React
 
 Focus on understanding advanced patterns and performance optimization techniques in React.
 
-- Render props **(In Progress)**
+- Render props **(Close to done)**
 - Custom Hooks **(In Progress)**
 - How to use Context API effectively **(In Progress)**
 - When and why to use controllers **(Done)**
