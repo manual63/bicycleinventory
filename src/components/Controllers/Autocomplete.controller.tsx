@@ -1,7 +1,7 @@
 import { Autocomplete, Paper, TextField, Typography, type PaperProps } from "@mui/material";
-import { useController, type Control, type FieldValues, type UseControllerProps } from "react-hook-form";
+import { useController, type Control, type FieldPath, type FieldValues, type UseControllerProps } from "react-hook-form";
 
-type AutocompleteControllerProps<T extends FieldValues> = UseControllerProps<T> & {
+type AutocompleteControllerProps<T extends FieldValues, TName extends FieldPath<T>> = UseControllerProps<T, TName> & {
   control: Control<T>;
   label: string;
   options: readonly string[];   // readonly so an `as const` list also fits
@@ -19,7 +19,7 @@ function PaperWithHint(props: PaperProps) {
   );
 }
 
-export function AutocompleteController<T extends FieldValues>({ label, options, renderOptionEnd, ...controllerProps }: AutocompleteControllerProps<T>) {
+export function AutocompleteController<T extends FieldValues, TName extends FieldPath<T>>({ label, options, renderOptionEnd, ...controllerProps }: AutocompleteControllerProps<T, TName>) {
   const { field: { ref, onChange, value, ...field }, fieldState } = useController(controllerProps);
 
   return (
