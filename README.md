@@ -33,13 +33,13 @@ Focus on understanding the core concepts of Material-UI and how to effectively u
 Improve your understanding of form handling in React by mastering React Hook Forms.
 
 - Learn how to handle form state and validation using React Hook Forms.
-- Understand the core concepts: `useForm`, `Controller`, and form context. **(In Progress)**
+- Understand the core concepts: `useForm`, `Controller`, and form context. **(Done)**
 - Explore advanced patterns like dynamic fields and nested forms. **(In Progress)**
 - Understand the lib hooks and how to use them effectively in forms.
   - useWatch **(Done)**
   - useFormState **(Done)**
   - useFormContext **(Done)**
-  - useFieldArray **(Yeah I have no clue yet)**
+  - useFieldArray **(Done)**
 
 ### Zustand
 
