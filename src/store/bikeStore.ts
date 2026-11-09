@@ -10,6 +10,10 @@ const myBikes: Bike[] = [
     frameMaterial: 'steel',
     type: 'mountain',
     isElectric: false,
+    parts: [
+      {name: "MRP Ribbon SL Rally 120mm Fork", cost: 799},
+      {name: "Hunt Trail Wide Wheels", cost: 599}
+    ],
   },
   {
     id: '2',
@@ -19,6 +23,7 @@ const myBikes: Bike[] = [
     frameMaterial: 'steel',
     type: 'bmx',
     isElectric: false,
+    parts: [],
   },
   {
     id: '3',
@@ -28,6 +33,7 @@ const myBikes: Bike[] = [
     frameMaterial: 'carbon-fiber',
     type: 'mountain',
     isElectric: true,
+    parts: [],
   },
 ];
 

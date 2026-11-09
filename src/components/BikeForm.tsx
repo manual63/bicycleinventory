@@ -1,5 +1,5 @@
 import { Button, Chip, Stack, TextField, Typography } from "@mui/material";
-import { FormProvider, useForm, useFormContext, useFormState, useWatch } from "react-hook-form";
+import { FormProvider, useForm, useFormContext, useFormState, useWatch, useFieldArray } from "react-hook-form";
 import { bikeBrands, bikeTypeLabels, frameMaterialLabels, type NewBike } from "../types/bike";
 import { AutocompleteController } from "./Controllers/Autocomplete.controller";
 import { SelectController } from "./Controllers/Select.controller";
@@ -16,7 +16,7 @@ type BikeFormProps = {
 
 const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProps) => {
   const methods = useForm<NewBike>({
-    defaultValues: { isElectric: false, serialNumber: undefined, ...initialValues },
+    defaultValues: { isElectric: false, serialNumber: undefined, parts: [], ...initialValues },
   });
   const { register, handleSubmit, reset, control, formState: { errors } } = methods;
 
@@ -103,6 +103,7 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
           label="Electric"
           control={control}
         />
+        <PartsFields />
         <SubmitButton>
           {buttonText}
         </SubmitButton>
@@ -127,4 +128,42 @@ const SubmitButton = ({ children }: { children: React.ReactNode }) => {
   const { isDirty, isSubmitting } = useFormState({ control });
 
   return <Button type="submit" disabled={!isDirty || isSubmitting} variant="outlined">{children}</Button>
+}
+
+const PartsFields = () => {
+  const { control, register, formState: { errors } } = useFormContext<NewBike>();
+  const { fields, append, remove } = useFieldArray({ control, name: "parts" });
+
+  return (
+    <Stack spacing={1}>
+      <Typography variant="subtitle2">Parts</Typography>
+      {fields.map((part, index) => {
+        const { ref: nameRef, ...nameField } = register(`parts.${index}.name`, { required: "Part name is required" });
+        const { ref: costRef, ...costField } = register(`parts.${index}.cost`, { valueAsNumber: true, required: "Cost is required" });
+
+        return (
+          <Stack key={part.id} direction="row" spacing={1}>
+            {/* a TextField for name, one for cost, and a remove button */}
+            <TextField
+              {...nameField}
+              inputRef={nameRef}
+              label="Name"
+              error={!!errors.parts?.[index]?.name}
+              helperText={errors.parts?.[index]?.name?.message}
+            />
+            <TextField
+              {...costField}
+              inputRef={costRef}
+              label="Cost"
+              error={!!errors.parts?.[index]?.cost}
+              helperText={errors.parts?.[index]?.cost?.message}
+            />
+            <Button onClick={() => remove(index)}>Remove</Button>
+          </Stack>
+        )
+      })}
+      <Button onClick={() => append({ name: "", cost: 0})}>Add part</Button>
+    </Stack>
+
+  );
 }

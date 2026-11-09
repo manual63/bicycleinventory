@@ -10,6 +10,7 @@ export type Bike = {
   type: BikeType;
   isElectric: boolean;
   serialNumber?: string;
+  parts: BikePart[];
 }
 
 export const bikeTypeLabels: Record<BikeType, string> = {
@@ -44,3 +45,8 @@ export const bikeBrands = [
 ] as const;
 
 export const toNewBike = ({ id, ...rest }: Bike): NewBike => rest;
+
+export type BikePart = {
+  "name": string;
+  "cost": number;
+}

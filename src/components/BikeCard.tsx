@@ -14,6 +14,9 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
     useBikeStore.getState().removeBike(bike.id);
   }
 
+  const totalCost = bike.parts.reduce((sum, part) => sum + part.cost, 0);
+  const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+
   return (
     <Card>
       <CardContent>
@@ -24,8 +27,20 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
         {bike.serialNumber && (
           <Typography variant="body2">Serial Number: {bike.serialNumber}</Typography>
         )}
+        {bike.parts.length > 0 && (
+          <>
+            <Typography variant="h5">Parts</Typography>
+            {bike.parts.map((part, key) =>
+              <Stack direction="row" spacing={2} key={key}>
+                <Typography variant="body2">Part: {part.name}</Typography>
+                <Typography variant="body2">Cost: {usd.format(part.cost)}</Typography>
+              </Stack>
+            )}
+            <Typography variant="body2">Total Parts Cost: {usd.format(totalCost)}</Typography>
+          </>
+        )}
         <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
-          <Button variant="contained" color="primary" onClick={() => onEdit && onEdit(bike)}>
+          <Button variant="contained" color="primary" onClick={() => onEdit(bike)}>
             Edit
           </Button>
           <Button variant="contained" color="error" onClick={handleDelete}>
