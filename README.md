@@ -18,14 +18,14 @@ Focus on understanding advanced patterns and performance optimization techniques
 - Custom Hooks **(In Progress)**
 - How to use Context API effectively **(In Progress)**
 - When and why to use controllers **(Done)**
-- When and why to use a Class
+- When and why to use a Class **(In Progress)**
 
 ### Material UI
 
 Focus on understanding the core concepts of Material-UI and how to effectively use its components and theming system in your projects.
 
 - Understand the core concepts of Material-UI (MUI) such as theming, styling, and component customization. **(In Progress)**
-- Practice building reusable UI components using MUI. **(In Progress)**
+- Practice building reusable UI components using MUI. **(Done)**
 - Learn how to integrate MUI with React hook forms for form handling.
 
 ### React Hook Forms

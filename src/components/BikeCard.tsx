@@ -3,6 +3,8 @@ import { Button, Card, CardContent, Stack, Typography } from "@mui/material";
 import { useBikeActions } from '../hooks/useBikeActions';
 import { usd } from '../libs/utils';
 import { bikeTypeLabels, frameMaterialLabels, type Bike } from "../types/bike";
+import { useState } from 'react';
+import ConfirmDialog from './ConfirmDialog';
 
 type BikeCardProps = {
   bike: Bike;
@@ -11,9 +13,11 @@ type BikeCardProps = {
 
 const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
   const { removeBike } = useBikeActions();
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const handleDelete = () => {
-    removeBike(bike.id);
+  const handleDelete = async () => {
+    await removeBike(bike.id);
+    setConfirmOpen(false);
   }
 
   const totalCost = bike.parts.reduce((sum, part) => sum + part.cost, 0);
@@ -44,11 +48,20 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
           <Button variant="contained" color="primary" onClick={() => onEdit(bike)}>
             Edit
           </Button>
-          <Button variant="contained" color="error" onClick={handleDelete}>
+          <Button variant="contained" color="error" onClick={() => setConfirmOpen(true)}>
             Delete
           </Button>
         </Stack>
       </CardContent>
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Delete Bike?"
+        message={<>This will permanently delete <strong>{bike.brand} {bike.model}!</strong></>}
+        confirmText="Delete"
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={handleDelete}
+        confirmColor="error"
+      />
     </Card>
   );
 }
