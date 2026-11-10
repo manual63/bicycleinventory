@@ -1,16 +1,24 @@
 import { Container, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { useEffect, useState } from 'react';
 import BikeCard from './components/BikeCard';
-import { useBikeStore } from './store/bikeStore';
 import BikeForm from './components/BikeForm';
-import { useState } from 'react';
+import { useBikeActions } from './hooks/useBikeActions';
+import { useBikeRepository } from './repositories/BikeRepositoryContext';
+import { useBikeStore } from './store/bikeStore';
 import { toNewBike, type Bike } from './types/bike';
 
 function App() {
   const [editingBike, setEditingBike] = useState<Bike | null>(null);
-  const updateBike = useBikeStore((s) => s.updateBike);
-
   const myBikes = useBikeStore((s) => s.bikes);
-  const addBike = useBikeStore((s) => s.addBike);
+  const { addBike, updateBike } = useBikeActions();
+
+  const repository = useBikeRepository();
+  const setBikes = useBikeStore((s) => s.setBikes);
+
+  useEffect(() => {
+    repository.getAll().then(setBikes);
+  }, [repository, setBikes])
+
   return (
     <>
       <Container>
@@ -25,8 +33,8 @@ function App() {
           {editingBike && (
             <BikeForm
               initialValues={toNewBike(editingBike)}
-              onSubmit={(changes) => {
-                updateBike(editingBike.id, changes);
+              onSubmit={async (changes) => {
+                await updateBike(editingBike.id, changes);
                 setEditingBike(null);
               }}
               buttonText="Save Changes"

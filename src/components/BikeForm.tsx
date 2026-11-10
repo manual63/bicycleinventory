@@ -10,7 +10,7 @@ const popularBrands = ["Pivot", "Trek", "Specialized"];
 
 type BikeFormProps = {
   initialValues?: Partial<NewBike>;
-  onSubmit: (data: NewBike) => void;
+  onSubmit: (data: NewBike) => void | Promise<void>;
   buttonText?: string;
 };
 
@@ -20,9 +20,8 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
   });
   const { register, handleSubmit, reset, control, formState: { errors } } = methods;
 
-  const handleValid = (data: NewBike) => {
-    console.log("Submitting new bike:", data);
-    onSubmit(data);
+  const handleValid = async (data: NewBike) => {
+    await onSubmit(data);
     reset();
   };
 
