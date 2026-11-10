@@ -66,5 +66,4 @@ export class LocalStorageBikeRepository implements BikeRepository {
     // Writes the array back with the bike removed from the list.
     this.writeAll(updatedBikes);
   }
-
 }
