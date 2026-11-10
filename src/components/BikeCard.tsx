@@ -1,6 +1,7 @@
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import { Button, Card, CardContent, Stack, Typography } from "@mui/material";
-import { useBikeStore } from "../store/bikeStore";
+import { useBikeActions } from '../hooks/useBikeActions';
+import { usd } from '../libs/utils';
 import { bikeTypeLabels, frameMaterialLabels, type Bike } from "../types/bike";
 
 type BikeCardProps = {
@@ -9,13 +10,13 @@ type BikeCardProps = {
 };
 
 const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
+  const { removeBike } = useBikeActions();
 
   const handleDelete = () => {
-    useBikeStore.getState().removeBike(bike.id);
+    removeBike(bike.id);
   }
 
   const totalCost = bike.parts.reduce((sum, part) => sum + part.cost, 0);
-  const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 
   return (
     <Card>
@@ -30,8 +31,8 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
         {bike.parts.length > 0 && (
           <>
             <Typography variant="h5">Parts</Typography>
-            {bike.parts.map((part, key) =>
-              <Stack direction="row" spacing={2} key={key}>
+            {bike.parts.map((part, index) =>
+              <Stack direction="row" spacing={2} key={index}>
                 <Typography variant="body2">Part: {part.name}</Typography>
                 <Typography variant="body2">Cost: {usd.format(part.cost)}</Typography>
               </Stack>
