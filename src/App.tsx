@@ -2,6 +2,7 @@ import { Container, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useEffect, useState } from 'react';
 import BikeCard from './components/BikeCard';
 import BikeForm from './components/BikeForm';
+import Toaster from './components/Toaster';
 import { useBikeActions } from './hooks/useBikeActions';
 import { useBikeRepository } from './repositories/BikeRepositoryContext';
 import { useBikeStore } from './store/bikeStore';
@@ -42,6 +43,7 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
+      <Toaster />
     </>
   );
 }

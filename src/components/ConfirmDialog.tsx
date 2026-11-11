@@ -28,6 +28,8 @@ const ConfirmDialog = ({
     setIsPending(true);
     try {
       await onConfirm();
+    } catch {
+      // onConfirm reports its own errors; failing just keeps the dialog open
     } finally {
       setIsPending(false);
     }
@@ -35,8 +37,8 @@ const ConfirmDialog = ({
 
   return (
     <Dialog open={open} onClose={() => {
-        if (!isPending) onCancel();
-      }}
+      if (!isPending) onCancel();
+    }}
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
