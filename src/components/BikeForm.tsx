@@ -1,5 +1,5 @@
 import { Button, Chip, Stack, TextField, Typography } from "@mui/material";
-import { FormProvider, useForm, useFormContext, useFormState, useWatch, useFieldArray } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm, useFormContext, useFormState, useWatch } from "react-hook-form";
 import { bikeBrands, bikeTypeLabels, frameMaterialLabels, type NewBike } from "../types/bike";
 import { AutocompleteController } from "./Controllers/Autocomplete.controller";
 import { SelectController } from "./Controllers/Select.controller";
@@ -21,8 +21,12 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
   const { register, handleSubmit, reset, control, formState: { errors } } = methods;
 
   const handleValid = async (data: NewBike) => {
-    await onSubmit(data);
-    reset();
+    try {
+      await onSubmit(data);
+      reset();
+    } catch {
+      // onSubmit reports its own errors; failing keeps the users input data
+    }
   };
 
   const { ref: modelRef, ...modelField } = register("model", {
@@ -161,7 +165,7 @@ const PartsFields = () => {
           </Stack>
         )
       })}
-      <Button onClick={() => append({ name: "", cost: 0})}>Add part</Button>
+      <Button onClick={() => append({ name: "", cost: 0 })}>Add part</Button>
     </Stack>
 
   );
