@@ -1,15 +1,30 @@
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import { Button, Card, CardContent, Stack, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardHeader, Chip, Divider, Stack, Typography } from "@mui/material";
+import { useState } from 'react';
 import { useBikeActions } from '../hooks/useBikeActions';
 import { usd } from '../libs/utils';
 import { bikeTypeLabels, frameMaterialLabels, type Bike } from "../types/bike";
-import { useState } from 'react';
 import ConfirmDialog from './ConfirmDialog';
 
 type BikeCardProps = {
   bike: Bike;
   onEdit: (bike: Bike) => void;
 };
+
+type DetailRowProps = {
+  label: string,
+  value: string,
+  boldLabel?: boolean
+}
+
+const DetailRow = ({ label, value, boldLabel = false }: DetailRowProps) => {
+  return (
+    <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+      <Typography variant="body2" sx={{ fontWeight: boldLabel ? "bold" : "inherit" }}>{label}</Typography>
+      <Typography variant="body2">{value}</Typography>
+    </Stack>
+  )
+}
 
 const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
   const { removeBike } = useBikeActions();
@@ -23,36 +38,48 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
   const totalCost = bike.parts.reduce((sum, part) => sum + part.cost, 0);
 
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h5" component="h2">{bike.brand} {bike.model} {bike.isElectric && <ElectricBoltIcon fontSize="small" titleAccess="Electric" />} </Typography>
-        <Typography variant="body2">Year: {bike.year}</Typography>
-        <Typography variant="body2">Frame Material: {frameMaterialLabels[bike.frameMaterial]}</Typography>
-        <Typography variant="body2">Type: {bikeTypeLabels[bike.type]}</Typography>
-        {bike.serialNumber && (
-          <Typography variant="body2">Serial Number: {bike.serialNumber}</Typography>
-        )}
-        {bike.parts.length > 0 && (
-          <>
-            <Typography variant="h5">Parts</Typography>
-            {bike.parts.map((part, index) =>
-              <Stack direction="row" spacing={2} key={index}>
-                <Typography variant="body2">Part: {part.name}</Typography>
-                <Typography variant="body2">Cost: {usd.format(part.cost)}</Typography>
-              </Stack>
+    <>
+      <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+        <CardHeader
+          title={
+            <>
+              {bike.brand} {bike.model}{" "}
+              {bike.isElectric && <ElectricBoltIcon fontSize="small" titleAccess="Electric" />}
+            </>
+          }
+          subheader={`${bike.year} \u00B7 ${bikeTypeLabels[bike.type]}`}
+          slotProps={{ title: { variant: "h5", component: "h2" } }}
+        />
+        <CardContent sx={{ flexGrow: 1, pt: 0 }}>
+          <Stack spacing={1}>
+            <Chip label={frameMaterialLabels[bike.frameMaterial]} variant="outlined" />
+            {bike.serialNumber && (
+              <DetailRow label="Serial Number" value={bike.serialNumber} />
             )}
-            <Typography variant="body2">Total Parts Cost: {usd.format(totalCost)}</Typography>
-          </>
-        )}
-        <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
-          <Button variant="contained" color="primary" onClick={() => onEdit(bike)}>
-            Edit
-          </Button>
-          <Button variant="contained" color="error" onClick={() => setConfirmOpen(true)}>
-            Delete
-          </Button>
-        </Stack>
-      </CardContent>
+
+            {bike.parts.length > 0 && (
+              <>
+                <Divider sx={{ my: 1 }} />
+                <Typography variant="subtitle1" component="h3">Parts</Typography>
+                {bike.parts.map((part, index) =>
+                  <DetailRow key={index} label={part.name} value={usd.format(part.cost)} />
+                )}
+                <DetailRow label="Total Parts Cost" value={usd.format(totalCost)} boldLabel />
+              </>
+            )}
+          </Stack>
+        </CardContent>
+        <CardActions>
+          <Stack direction="row" spacing={1} sx={{ p: 1 }}>
+            <Button variant="contained" color="primary" onClick={() => onEdit(bike)}>
+              Edit
+            </Button>
+            <Button variant="contained" color="error" onClick={() => setConfirmOpen(true)}>
+              Delete
+            </Button>
+          </Stack>
+        </CardActions>
+      </Card>
       <ConfirmDialog
         open={confirmOpen}
         title="Delete Bike?"
@@ -62,7 +89,7 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
         onConfirm={handleDelete}
         confirmColor="error"
       />
-    </Card>
+    </>
   );
 }
 

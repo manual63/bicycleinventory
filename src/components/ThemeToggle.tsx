@@ -17,6 +17,7 @@ const ThemeToggle = () => {
     <IconButton
       aria-label={`Switch to ${currentMode === "dark" ? "light" : "dark"} mode`}
       onClick={alternateMode}
+      color="inherit"
     >
       {currentMode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
     </IconButton>
