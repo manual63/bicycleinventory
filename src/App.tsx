@@ -1,4 +1,4 @@
-import { Container, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Container, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import AppHeader from './components/AppHeader';
 import BikeCard from './components/BikeCard';
@@ -43,9 +43,16 @@ function App() {
     <>
       <AppHeader onAddBike={() => setDialog({ open: true, mode: "add" })} />
       <Container>
-        {myBikes.map((bike) => (
-          <BikeCard key={bike.id} bike={bike} onEdit={(bike) => setDialog({ open: true, mode: "edit", bike })} />
-        ))}
+        <Grid container spacing={2} sx={{ my: 2 }}>
+          {myBikes.map((bike) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={bike.id}>
+              <BikeCard
+                bike={bike}
+                onEdit={(bike) => setDialog({ open: true, mode: "edit", bike })}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Container>
       <Dialog
         open={dialog.open}
