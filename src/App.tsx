@@ -1,13 +1,16 @@
-import { Container, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Container, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useEffect, useState } from 'react';
 import AppHeader from './components/AppHeader';
-import BikeCard from './components/BikeCard';
 import BikeForm from './components/BikeForm';
+import BikeList from './components/BikeList';
 import Toaster from './components/Toaster';
 import { useBikeActions } from './hooks/useBikeActions';
+import { getErrorMessage } from './libs/utils';
 import { useBikeRepository } from './repositories/BikeRepositoryContext';
 import { useBikeStore } from './store/bikeStore';
+import { useToastStore } from './store/toastStore';
 import { toNewBike, type Bike, type NewBike } from './types/bike';
+import type { LoadStatus } from './types/loadStatus';
 
 type DialogState = { open: boolean } & (
   | { mode: "add" }
@@ -16,15 +19,23 @@ type DialogState = { open: boolean } & (
 
 function App() {
   const [dialog, setDialog] = useState<DialogState>({ open: false, mode: "add" });
+  const [loadingStatus, setLoadingStatus] = useState<LoadStatus>("loading");
   const myBikes = useBikeStore((s) => s.bikes);
+  const showToast = useToastStore((s) => s.showToast);
   const { addBike, updateBike } = useBikeActions();
 
   const repository = useBikeRepository();
   const setBikes = useBikeStore((s) => s.setBikes);
 
   useEffect(() => {
-    repository.getAll().then(setBikes);
-  }, [repository, setBikes]);
+    repository.getAll().then((bikes) => {
+      setBikes(bikes);
+      setLoadingStatus("ready");
+    }).catch((error) => {
+      setLoadingStatus("error");
+      showToast(`Error loading bikes! Message: ${getErrorMessage(error)}`, "error")
+    });
+  }, [repository, setBikes, showToast]);
 
   const closeDialog = () => setDialog((prev) => ({ ...prev, open: false }));
 
@@ -37,22 +48,19 @@ function App() {
     closeDialog();
   };
 
-
+  const handleEdit = (bike: Bike) => {
+    setDialog({ open: true, mode: "edit", bike })
+  }
 
   return (
     <>
       <AppHeader onAddBike={() => setDialog({ open: true, mode: "add" })} />
       <Container>
-        <Grid container spacing={2} sx={{ my: 2 }}>
-          {myBikes.map((bike) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={bike.id}>
-              <BikeCard
-                bike={bike}
-                onEdit={(bike) => setDialog({ open: true, mode: "edit", bike })}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        <BikeList
+          bikes={myBikes}
+          onEdit={handleEdit}
+          status={loadingStatus}
+        />
       </Container>
       <Dialog
         open={dialog.open}
@@ -78,6 +86,5 @@ function App() {
     </>
   );
 }
-
 
 export default App
