@@ -8,6 +8,7 @@ import { BikeRepositoryContext } from './repositories/BikeRepositoryContext.ts';
 import { DelayedBikeRepository } from './repositories/DelayedBikeRepository.ts';
 import { LocalStorageBikeRepository } from './repositories/LocalStorageBikeRepository.ts';
 import { theme } from './theme.ts';
+//import { FailingBikeRepository } from './repositories/FailingBikeRepository.ts';
 
 const bikeRepository: BikeRepository = new DelayedBikeRepository(new LocalStorageBikeRepository());
 
@@ -20,4 +21,4 @@ createRoot(document.getElementById('root')!).render(
       </BikeRepositoryContext>
     </ThemeProvider>
   </StrictMode>,
-)
+);

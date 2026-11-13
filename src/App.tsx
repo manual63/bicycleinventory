@@ -1,5 +1,5 @@
 import { Container, Dialog, DialogContent, DialogTitle } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AppHeader from './components/AppHeader';
 import BikeForm from './components/BikeForm';
 import BikeList from './components/BikeList';
@@ -27,7 +27,7 @@ function App() {
   const repository = useBikeRepository();
   const setBikes = useBikeStore((s) => s.setBikes);
 
-  useEffect(() => {
+  const loadBikes = useCallback(() => {
     repository.getAll().then((bikes) => {
       setBikes(bikes);
       setLoadingStatus("ready");
@@ -36,6 +36,10 @@ function App() {
       showToast(`Error loading bikes! Message: ${getErrorMessage(error)}`, "error")
     });
   }, [repository, setBikes, showToast]);
+
+  useEffect(() => {
+    loadBikes();
+  }, [loadBikes]);
 
   const closeDialog = () => setDialog((prev) => ({ ...prev, open: false }));
 
@@ -52,14 +56,25 @@ function App() {
     setDialog({ open: true, mode: "edit", bike })
   }
 
+  const handleAdd = () => {
+    setDialog({ open: true, mode: "add" });
+  }
+
+  const handleRetry = () => {
+    setLoadingStatus("loading");
+    loadBikes();
+  }
+
   return (
     <>
-      <AppHeader onAddBike={() => setDialog({ open: true, mode: "add" })} />
+      <AppHeader onAddBike={handleAdd} />
       <Container>
         <BikeList
           bikes={myBikes}
           onEdit={handleEdit}
           status={loadingStatus}
+          onAddBike={handleAdd}
+          onRetry={handleRetry}
         />
       </Container>
       <Dialog
