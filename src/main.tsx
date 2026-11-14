@@ -2,11 +2,12 @@ import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
+import { RouterProvider } from 'react-router';
 import type { BikeRepository } from './repositories/BikeRepository.ts';
 import { BikeRepositoryContext } from './repositories/BikeRepositoryContext.ts';
 import { DelayedBikeRepository } from './repositories/DelayedBikeRepository.ts';
 import { LocalStorageBikeRepository } from './repositories/LocalStorageBikeRepository.ts';
+import { router } from './router.tsx';
 import { theme } from './theme.ts';
 //import { FailingBikeRepository } from './repositories/FailingBikeRepository.ts';
 
@@ -17,7 +18,7 @@ createRoot(document.getElementById('root')!).render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BikeRepositoryContext value={bikeRepository}>
-        <App />
+        <RouterProvider router={router} />
       </BikeRepositoryContext>
     </ThemeProvider>
   </StrictMode>,

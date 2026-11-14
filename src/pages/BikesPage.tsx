@@ -1,26 +1,26 @@
-import { Container, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
-import AppHeader from './components/AppHeader';
-import BikeForm from './components/BikeForm';
-import BikeList from './components/BikeList';
-import Toaster from './components/Toaster';
-import { useBikeActions } from './hooks/useBikeActions';
-import { getErrorMessage } from './libs/utils';
-import { useBikeRepository } from './repositories/BikeRepositoryContext';
-import { useBikeStore } from './store/bikeStore';
-import { useToastStore } from './store/toastStore';
-import { toNewBike, type Bike, type NewBike } from './types/bike';
-import type { LoadStatus } from './types/loadStatus';
+import AddBikeButton from '../components/AddBikeButton';
+import BikeForm from '../components/BikeForm';
+import BikeList from '../components/BikeList';
+import { useBikeActions } from '../hooks/useBikeActions';
+import { getErrorMessage } from '../libs/utils';
+import { useBikeRepository } from '../repositories/BikeRepositoryContext';
+import { useBikeStore } from '../store/bikeStore';
+import { useToastStore } from '../store/toastStore';
+import { toNewBike, type Bike, type NewBike } from '../types/bike';
 
 type DialogState = { open: boolean } & (
   | { mode: "add" }
   | { mode: "edit"; bike: Bike }
 );
 
-function App() {
+export const BikesPage = () => {
   const [dialog, setDialog] = useState<DialogState>({ open: false, mode: "add" });
-  const [loadingStatus, setLoadingStatus] = useState<LoadStatus>("loading");
   const myBikes = useBikeStore((s) => s.bikes);
+  const loadingStatus = useBikeStore((s) => s.status);
+  const loadStarted = useBikeStore((s) => s.loadStarted);
+  const loadFailed = useBikeStore((s) => s.loadFailed);
   const showToast = useToastStore((s) => s.showToast);
   const { addBike, updateBike } = useBikeActions();
 
@@ -30,12 +30,11 @@ function App() {
   const loadBikes = useCallback(() => {
     repository.getAll().then((bikes) => {
       setBikes(bikes);
-      setLoadingStatus("ready");
     }).catch((error) => {
-      setLoadingStatus("error");
+      loadFailed();
       showToast(`Error loading bikes! Message: ${getErrorMessage(error)}`, "error")
     });
-  }, [repository, setBikes, showToast]);
+  }, [repository, setBikes, showToast, loadFailed]);
 
   useEffect(() => {
     loadBikes();
@@ -61,22 +60,23 @@ function App() {
   }
 
   const handleRetry = () => {
-    setLoadingStatus("loading");
+    loadStarted();
     loadBikes();
   }
 
   return (
     <>
-      <AppHeader onAddBike={handleAdd} />
-      <Container>
-        <BikeList
-          bikes={myBikes}
-          onEdit={handleEdit}
-          status={loadingStatus}
-          onAddBike={handleAdd}
-          onRetry={handleRetry}
-        />
-      </Container>
+      <Stack direction="row" sx={{ justifyContent: "space-between", my: 2 }}>
+        <Typography variant="h3" component="h1">My Bikes</Typography>
+        <AddBikeButton variant="contained" onClick={handleAdd} />
+      </Stack>
+      <BikeList
+        bikes={myBikes}
+        onEdit={handleEdit}
+        status={loadingStatus}
+        onAddBike={handleAdd}
+        onRetry={handleRetry}
+      />
       <Dialog
         open={dialog.open}
         onClose={closeDialog}
@@ -97,9 +97,6 @@ function App() {
           />
         </DialogContent>
       </Dialog>
-      <Toaster />
     </>
   );
-}
-
-export default App
+};

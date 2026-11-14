@@ -1,19 +1,46 @@
-import { AppBar, Toolbar, Typography } from "@mui/material";
-import AddBikeButton from "./AddBikeButton";
+import { AppBar, Box, Button, Container, Toolbar, Typography } from "@mui/material";
+import { Link, NavLink } from "react-router";
 import ThemeToggle from "./ThemeToggle";
 
-type AppHeaderProps = {
-  onAddBike: () => void;
-};
+const navItems = [
+  { label: "Home", to: "/" },
+  { label: "My Bikes", to: "/bikes" },
+] as const;
 
-const AppHeader = ({ onAddBike }: AppHeaderProps) => {
+const AppHeader = () => {
   return (
     <AppBar position="sticky">
-      <Toolbar>
-        <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>Bike Inventory</Typography>
-        <ThemeToggle />
-        <AddBikeButton onClick={onAddBike} variant="outlined" color="inherit" />
-      </Toolbar>
+      <Container>
+        <Toolbar>
+          <Typography
+            variant="h6"
+            sx={{ color: "inherit", textDecoration: "none" }}
+            component={Link}
+            to="/">
+            Shad Bikeworks
+          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          {navItems.map((item, key) => (
+            <Button
+              component={NavLink}
+              to={item.to}
+              color="inherit"
+              sx={{
+                opacity: 0.75,
+                borderRadius: 0,
+                borderBottom: 2,
+                borderColor: "transparent",
+                "&:hover": { opacity: 1 },
+                "&.active": { opacity: 1, borderColor: "currentColor" },
+              }}
+              key={key}
+            >
+              {item.label}
+            </Button>
+          ))}
+          <ThemeToggle />
+        </Toolbar>
+      </Container>
     </AppBar>
   )
 }
