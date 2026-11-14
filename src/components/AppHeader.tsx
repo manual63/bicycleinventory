@@ -20,7 +20,7 @@ const AppHeader = () => {
             Shad Bikeworks
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          {navItems.map((item, key) => (
+          {navItems.map((item) => (
             <Button
               component={NavLink}
               to={item.to}
@@ -33,7 +33,7 @@ const AppHeader = () => {
                 "&:hover": { opacity: 1 },
                 "&.active": { opacity: 1, borderColor: "currentColor" },
               }}
-              key={key}
+              key={item.to}
             >
               {item.label}
             </Button>

@@ -32,13 +32,16 @@ export const BikesPage = () => {
       setBikes(bikes);
     }).catch((error) => {
       loadFailed();
-      showToast(`Error loading bikes! Message: ${getErrorMessage(error)}`, "error")
+      showToast(`Error loading bikes! Message: ${getErrorMessage(error)}`, "error");
     });
   }, [repository, setBikes, showToast, loadFailed]);
 
   useEffect(() => {
-    loadBikes();
-  }, [loadBikes]);
+    const status = useBikeStore.getState().status;   // peek at the store, right now
+    if (status === "ready") return;                  // case 1: nothing to do, stop here
+    if (status === "error") loadStarted();           // case 3: switch back to "loading" first
+    loadBikes();                                     // cases 2 and 3 both end up here
+  }, [loadBikes, loadStarted]);
 
   const closeDialog = () => setDialog((prev) => ({ ...prev, open: false }));
 
