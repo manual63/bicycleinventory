@@ -3,8 +3,9 @@ import { LocalStorageBikeRepository } from "./LocalStorageBikeRepository";
 
 export class FailingBikeRepository extends LocalStorageBikeRepository {
   override async getAll(): Promise<Bike[]> {
-    if (Math.random() < 0.5) throw new Error("Simulated failure while loading");
-    return super.getAll();
+    // if (Math.random() < 0.5) throw new Error("Simulated failure while loading");
+    // return super.getAll();
+    throw new Error("Simulated failure while getting all bikes");
   }
 
   override async create(): Promise<Bike> {
