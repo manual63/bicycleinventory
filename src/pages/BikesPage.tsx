@@ -1,5 +1,6 @@
 import { Dialog, DialogContent, DialogTitle, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router';
 import AddBikeButton from '../components/AddBikeButton';
 import BikeForm from '../components/BikeForm';
 import BikeList from '../components/BikeList';
@@ -16,17 +17,26 @@ type DialogState = { open: boolean } & (
 );
 
 export const BikesPage = () => {
-  const [dialog, setDialog] = useState<DialogState>({ open: false, mode: "add" });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [dialog, setDialog] = useState<DialogState>(() =>
+    searchParams.get("add") === "true" // Checks if there is a param in the url add=true
+      ? { open: true, mode: "add" } // Opens the add a bike model 
+      : { open: false, mode: "add" } // Keeps the modal closed
+  );
+
+  // Store functions and values
   const myBikes = useBikeStore((s) => s.bikes);
   const loadingStatus = useBikeStore((s) => s.status);
   const loadStarted = useBikeStore((s) => s.loadStarted);
   const loadFailed = useBikeStore((s) => s.loadFailed);
   const showToast = useToastStore((s) => s.showToast);
-  const { addBike, updateBike } = useBikeActions();
-
-  const repository = useBikeRepository();
   const setBikes = useBikeStore((s) => s.setBikes);
 
+  // Determies whether to modal opens empty or with an existing bike
+  const { addBike, updateBike } = useBikeActions();
+  const repository = useBikeRepository();
+  
   const loadBikes = useCallback(() => {
     repository.getAll().then((bikes) => {
       setBikes(bikes);
@@ -43,7 +53,10 @@ export const BikesPage = () => {
     loadBikes();                                     // cases 2 and 3 both end up here
   }, [loadBikes, loadStarted]);
 
-  const closeDialog = () => setDialog((prev) => ({ ...prev, open: false }));
+  const closeDialog = () => {
+    setDialog((prev) => ({ ...prev, open: false }));
+    setSearchParams({}, { replace: true }); // Removes the param in the url
+  }
 
   const handleSubmit = async (data: NewBike) => {
     if (dialog.mode === "edit") {
