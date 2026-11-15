@@ -3,6 +3,7 @@ import { WelcomePage } from "./pages/WelcomePage";
 import { BikesPage } from "./pages/BikesPage";
 import { PageNotFound } from "./pages/PageNotFound";
 import { RootLayout } from "./layouts/RootLayout";
+import { TirePressurePage } from "./pages/TirePressurePage";
 
 export const router = createBrowserRouter([
   {
@@ -10,6 +11,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <WelcomePage /> },
       { path: "bikes", element: <BikesPage /> },
+      { path: "tire-pressure", element: <TirePressurePage /> },
       { path: "*", element: <PageNotFound /> },
     ],
   },

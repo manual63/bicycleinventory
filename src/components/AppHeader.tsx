@@ -5,6 +5,7 @@ import ThemeToggle from "./ThemeToggle";
 const navItems = [
   { label: "Home", to: "/" },
   { label: "My Bikes", to: "/bikes" },
+  { label: "Tire Pressure", to: "/tire-pressure" },
 ] as const;
 
 const AppHeader = () => {
@@ -17,7 +18,7 @@ const AppHeader = () => {
             sx={{ color: "inherit", textDecoration: "none" }}
             component={Link}
             to="/">
-            Shad Bikeworks
+            Shad's Cycleworks
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           {navItems.map((item) => (

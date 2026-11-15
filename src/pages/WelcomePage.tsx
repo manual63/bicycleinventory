@@ -19,7 +19,7 @@ type Feature = {
 const features: Feature[] = [
   {
     title: "My Bikes",
-    description: "Track every bike and part.",
+    description: "Track every bike and part you own.",
     icon: PedalBikeIcon,
     status: "available",
     to: "/bikes",
@@ -32,9 +32,10 @@ const features: Feature[] = [
   },
   {
     title: "Tire Pressure",
-    description: "Find the right PSI for you ride.",
+    description: "Find the right PSI for your ride.",
     icon: TireRepairIcon,
-    status: "comingSoon",
+    status: "available",
+    to: "/tire-pressure",
   }
 ]
 
@@ -56,7 +57,7 @@ export const WelcomePage = () => {
             variant="h2"
             component="h1"
             sx={{ fontWeight: "700", fontSize: { xs: "2.5rem", md: "3.75rem" } }}>
-            Shad Bikeworks
+            Shad's Cycleworks
           </Typography>
           <Typography
             variant="h6"
