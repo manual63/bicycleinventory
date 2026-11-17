@@ -1,7 +1,7 @@
 import { Container } from "@mui/material"
 import { Outlet } from "react-router"
-import { AppHeader } from "../components/AppHeader"
-import Toaster from "../components/Toaster"
+import Toaster from "../components/feedback/Toaster"
+import { AppHeader } from "../components/layout/AppHeader"
 
 export const RootLayout = () => {
   return (
