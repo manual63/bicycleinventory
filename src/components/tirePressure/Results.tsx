@@ -4,7 +4,7 @@ import { useFormContext, useFormState, useWatch } from "react-hook-form";
 import { calculateTirePressure } from "../../libs/tirePressure";
 import type { TirePressureInput } from "../../types/tirePressure";
 import { PressureColumn } from "./PressureColumn";
-import { TrailConditionGuide } from "./TrailConditionsGuide";
+import { TrailConditionGuide } from "./TrailConditionGuide";
 
 export const Results = () => {
   const { control } = useFormContext<TirePressureInput>();
