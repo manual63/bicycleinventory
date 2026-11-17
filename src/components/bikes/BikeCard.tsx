@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { bikeTypeLabels, frameMaterialLabels, type Bike } from '../../types/bike';
 import { useBikeActions } from '../../hooks/useBikeActions';
 import { usd } from '../../libs/utils';
-import ConfirmDialog from '../ConfirmDialog';
+import ConfirmDialog from '../feedback/ConfirmDialog';
+
 
 type BikeCardProps = {
   bike: Bike;
