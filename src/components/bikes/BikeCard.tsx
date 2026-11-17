@@ -1,10 +1,10 @@
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import { Button, Card, CardActions, CardContent, CardHeader, Chip, Divider, Stack, Typography } from "@mui/material";
 import { useState } from 'react';
-import { useBikeActions } from '../hooks/useBikeActions';
-import { usd } from '../libs/utils';
-import { bikeTypeLabels, frameMaterialLabels, type Bike } from "../types/bike";
-import ConfirmDialog from './ConfirmDialog';
+import { bikeTypeLabels, frameMaterialLabels, type Bike } from '../../types/bike';
+import { useBikeActions } from '../../hooks/useBikeActions';
+import { usd } from '../../libs/utils';
+import ConfirmDialog from '../ConfirmDialog';
 
 type BikeCardProps = {
   bike: Bike;

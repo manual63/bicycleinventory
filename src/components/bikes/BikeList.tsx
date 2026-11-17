@@ -1,10 +1,10 @@
 import { Grid } from "@mui/material";
-import type { Bike } from "../types/bike";
-import type { LoadStatus } from "../types/loadStatus";
+import type { Bike } from "../../types/bike";
+import type { LoadStatus } from "../../types/loadStatus";
 import BikeCard from "./BikeCard";
 import BikeCardSkeleton from "./BikeCardSkeleton";
 import EmptyState from "./EmptyState";
-import ErrorState from "./ErrorState";
+import ErrorState from "../ErrorState";
 
 type BikeListProps = {
   bikes: Bike[];

@@ -2,7 +2,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from "@mui/material";
 import { useState } from 'react';
 import { Link, NavLink } from "react-router";
-import { navItems } from '../navigation';
+import { navItems } from '../../navigation';
 import { MobileNav } from './MobileNav';
 import ThemeToggle from "./ThemeToggle";
 

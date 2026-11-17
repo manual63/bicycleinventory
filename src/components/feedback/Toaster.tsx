@@ -1,5 +1,5 @@
 import { Alert, Snackbar, type SnackbarCloseReason } from "@mui/material";
-import { useToastStore } from "../store/toastStore";
+import { useToastStore } from "../../store/toastStore";
 
 const Toaster = () => {
   const toast = useToastStore((s) => s.toast);

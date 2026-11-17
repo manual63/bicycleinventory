@@ -1,6 +1,6 @@
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import { NavLink } from "react-router";
-import { navItems } from "../navigation";
+import { navItems } from "../../navigation";
 
 type MobileNavProps = {
   open: boolean;
