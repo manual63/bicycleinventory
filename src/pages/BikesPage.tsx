@@ -1,9 +1,9 @@
 import { Dialog, DialogContent, DialogTitle, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import AddBikeButton from '../components/AddBikeButton';
-import BikeForm from '../components/BikeForm';
-import BikeList from '../components/BikeList';
+import AddBikeButton from '../components/bikes/AddBikeButton';
+import BikeForm from '../components/bikes/BikeForm';
+import BikeList from '../components/bikes/BikeList';
 import { useBikeActions } from '../hooks/useBikeActions';
 import { getErrorMessage } from '../libs/utils';
 import { useBikeRepository } from '../repositories/BikeRepositoryContext';
@@ -36,7 +36,7 @@ export const BikesPage = () => {
   // Determies whether to modal opens empty or with an existing bike
   const { addBike, updateBike } = useBikeActions();
   const repository = useBikeRepository();
-  
+
   const loadBikes = useCallback(() => {
     repository.getAll().then((bikes) => {
       setBikes(bikes);

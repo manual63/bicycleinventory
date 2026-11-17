@@ -1,9 +1,9 @@
 import { Button, Chip, Stack, TextField, Typography } from "@mui/material";
 import { FormProvider, useFieldArray, useForm, useFormContext, useFormState, useWatch } from "react-hook-form";
-import { bikeBrands, bikeTypeLabels, frameMaterialLabels, type NewBike } from "../types/bike";
-import { AutocompleteController } from "./Controllers/Autocomplete.controller";
-import { SelectController } from "./Controllers/Select.controller";
-import { SwitchController } from "./Controllers/Switch.controller";
+import { bikeBrands, bikeTypeLabels, frameMaterialLabels, type NewBike } from "../../types/bike";
+import { AutocompleteController } from "../controllers/Autocomplete.controller";
+import { SelectController } from "../controllers/Select.controller";
+import { SwitchController } from "../controllers/Switch.controller";
 
 // List of popular bike brands
 const popularBrands = ["Pivot", "Trek", "Specialized"];
