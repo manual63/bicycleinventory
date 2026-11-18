@@ -1,11 +1,10 @@
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import { Button, Card, CardActions, CardContent, CardHeader, Chip, Divider, Stack, Typography } from "@mui/material";
 import { useState } from 'react';
-import { bikeTypeLabels, frameMaterialLabels, type Bike } from '../../types/bike';
 import { useBikeActions } from '../../hooks/useBikeActions';
 import { usd } from '../../libs/utils';
+import { bikeTypeLabels, frameMaterialLabels, suspensionTypeLabels, type Bike } from '../../types/bike';
 import ConfirmDialog from '../feedback/ConfirmDialog';
-
 
 type BikeCardProps = {
   bike: Bike;
@@ -53,7 +52,17 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
         />
         <CardContent sx={{ flexGrow: 1, pt: 0 }}>
           <Stack spacing={1}>
-            <Chip label={frameMaterialLabels[bike.frameMaterial]} variant="outlined" />
+            <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1} useFlexGap>
+              <Chip
+                label={frameMaterialLabels[bike.frameMaterial]}
+                variant="outlined"
+              />
+              <Chip
+                color={bike.suspension ? "default" : "warning"}
+                label={bike.suspension ? suspensionTypeLabels[bike.suspension] : "Suspension Not Set"}
+                variant="outlined"
+              />
+            </Stack>
             {bike.serialNumber && (
               <DetailRow label="Serial Number" value={bike.serialNumber} />
             )}

@@ -1,7 +1,9 @@
 import { Button, Chip, Stack, TextField, Typography } from "@mui/material";
 import { FormProvider, useFieldArray, useForm, useFormContext, useFormState, useWatch } from "react-hook-form";
-import { bikeBrands, bikeTypeLabels, frameMaterialLabels, type NewBike } from "../../types/bike";
+import { toOptions } from "../../libs/utils";
+import { bikeBrands, bikeTypeLabels, frameMaterialLabels, suspensionTypeLabels, type NewBike } from "../../types/bike";
 import { AutocompleteController } from "../controllers/Autocomplete.controller";
+import { RadioGroupController } from "../controllers/RadioGroup.controller";
 import { SelectController } from "../controllers/Select.controller";
 import { SwitchController } from "../controllers/Switch.controller";
 
@@ -13,6 +15,10 @@ type BikeFormProps = {
   onSubmit: (data: NewBike) => void | Promise<void>;
   buttonText?: string;
 };
+
+const bikeTypeOptions = toOptions(bikeTypeLabels);
+const frameMaterialOptions = toOptions(frameMaterialLabels);
+const suspensionTypeOptions = toOptions(suspensionTypeLabels);
 
 const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProps) => {
   const methods = useForm<NewBike>({
@@ -44,9 +50,6 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
   const { ref: serialNumberRef, ...serialNumberField } = register("serialNumber", {
     setValueAs: (value: string) => value.trim() === "" ? undefined : value.trim(),
   });
-
-  const bikeTypeOptions = Object.entries(bikeTypeLabels).map(([value, label]) => ({ value, label }));
-  const frameMaterialOptions = Object.entries(frameMaterialLabels).map(([value, label]) => ({ value, label }));
 
   return (
     <FormProvider {...methods}>
@@ -93,6 +96,13 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
           label="Frame Material"
           control={control}
           rules={{ required: "Frame Material is required" }}
+        />
+        <RadioGroupController
+          name="suspension"
+          options={suspensionTypeOptions}
+          label="Suspension"
+          control={control}
+          rules={{ required: "Suspension Type is required" }}
         />
         <SelectController
           name="type"
