@@ -1,7 +1,6 @@
 import { MenuItem, TextField } from "@mui/material";
 import { useController, type Control, type FieldPath, type FieldValues, type UseControllerProps } from "react-hook-form";
-
-type SelectOption = { value: string; label: string };
+import type { SelectOption } from "../../types/input";
 
 type SelectControllerProps<T extends FieldValues, TName extends FieldPath<T>> = UseControllerProps<T, TName> & {
   control: Control<T>;

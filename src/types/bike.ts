@@ -1,5 +1,6 @@
 export type BikeType = "gravel" | "mountain" | "commuter" | "dj" | "bmx";
 export type FrameMaterial = "aluminum" | "carbon-fiber" | "steel" | "titanium";
+export type SuspensionType = "full-suspension" | "hardtail" | "full-rigid";
 
 export type Bike = {
   readonly id: string;
@@ -7,6 +8,7 @@ export type Bike = {
   model: string;
   year: number;
   frameMaterial: FrameMaterial;
+  suspension?: SuspensionType;
   type: BikeType;
   isElectric: boolean;
   serialNumber?: string;
@@ -26,6 +28,12 @@ export const frameMaterialLabels: Record<FrameMaterial, string> = {
   "carbon-fiber": "Carbon Fiber",
   "steel": "Steel",
   "titanium": "Titanium",
+};
+
+export const suspensionTypeLabels: Record<SuspensionType, string> = {
+  "full-suspension": "Full Suspension",
+  "hardtail": "Hardtail",
+  "full-rigid": "Full Rigid",
 };
 
 export type NewBike = Omit<Bike, "id">;

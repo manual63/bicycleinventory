@@ -11,6 +11,7 @@ import { SelectController } from "../components/controllers/Select.controller";
 import { SwitchController } from "../components/controllers/Switch.controller";
 import { NumberField } from "../components/tirePressure/NumberField";
 import { Results } from "../components/tirePressure/Results";
+import { toOptions } from "../libs/utils";
 import {
   casingLabels,
   defaultTirePressureInput,
@@ -18,9 +19,6 @@ import {
   wheelSetupLabels,
   type TirePressureInput
 } from "../types/tirePressure";
-
-const toOptions = (labels: Record<string, string>) =>
-  Object.entries(labels).map(([value, label]) => ({ value, label }));
 
 const casingOptions = toOptions(casingLabels);
 const wheelSetupOptions = toOptions(wheelSetupLabels);
