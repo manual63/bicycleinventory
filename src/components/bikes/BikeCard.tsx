@@ -5,6 +5,7 @@ import { useBikeActions } from '../../hooks/useBikeActions';
 import { usd } from '../../libs/utils';
 import { bikeTypeLabels, frameMaterialLabels, suspensionTypeLabels, type Bike } from '../../types/bike';
 import ConfirmDialog from '../feedback/ConfirmDialog';
+import { Link } from 'react-router';
 
 type BikeCardProps = {
   bike: Bike;
@@ -87,6 +88,7 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
             <Button variant="contained" color="error" onClick={() => setConfirmOpen(true)}>
               Delete
             </Button>
+            <Button variant="text" component={Link} to={`/bikes/${bike.id}`}>View</Button>
           </Stack>
         </CardActions>
       </Card>
