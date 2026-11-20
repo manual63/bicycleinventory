@@ -1,11 +1,10 @@
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import { Button, Card, CardActions, CardContent, CardHeader, Chip, Divider, Stack, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardHeader, Chip, Stack, Typography } from "@mui/material";
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { useBikeActions } from '../../hooks/useBikeActions';
-import { usd } from '../../libs/utils';
 import { bikeTypeLabels, frameMaterialLabels, suspensionTypeLabels, type Bike } from '../../types/bike';
 import ConfirmDialog from '../feedback/ConfirmDialog';
-import { Link } from 'react-router';
 
 type BikeCardProps = {
   bike: Bike;
@@ -36,8 +35,6 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
     setConfirmOpen(false);
   }
 
-  const totalCost = bike.parts.reduce((sum, part) => sum + part.cost, 0);
-
   return (
     <>
       <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -67,16 +64,8 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
             {bike.serialNumber && (
               <DetailRow label="Serial Number" value={bike.serialNumber} />
             )}
-
             {bike.parts.length > 0 && (
-              <>
-                <Divider sx={{ my: 1 }} />
-                <Typography variant="subtitle1" component="h3">Parts</Typography>
-                {bike.parts.map((part, index) =>
-                  <DetailRow key={index} label={part.name} value={usd.format(part.cost)} />
-                )}
-                <DetailRow label="Total Parts Cost" value={usd.format(totalCost)} boldLabel />
-              </>
+              <DetailRow label="Parts" value={bike.parts.length.toString()} />
             )}
           </Stack>
         </CardContent>

@@ -6,7 +6,6 @@ import { AutocompleteController } from "../controllers/Autocomplete.controller";
 import { RadioGroupController } from "../controllers/RadioGroup.controller";
 import { SelectController } from "../controllers/Select.controller";
 import { SwitchController } from "../controllers/Switch.controller";
-import { PartsFields } from "./PartsFields";
 
 // List of popular bike brands
 const popularBrands = ["Pivot", "Trek", "Specialized"];
@@ -117,7 +116,6 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
           label="Electric"
           control={control}
         />
-        <PartsFields />
         <SubmitButton>
           {buttonText}
         </SubmitButton>
