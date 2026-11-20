@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import type { Bike } from "../../types/bike";
 import type { LoadStatus } from "../../types/loadStatus";
 import BikeCard from "./BikeCard";
-import BikeCardSkeleton from "./BikeCardSkeleton";
+import { BikeCardSkeleton } from "./BikeCardSkeleton";
 import EmptyState from "./EmptyState";
 import ErrorState from "./ErrorState";
 

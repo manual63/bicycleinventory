@@ -7,7 +7,8 @@ export class LocalStorageBikeRepository implements BikeRepository {
   private readAll(): Bike[] {
     const json = localStorage.getItem(this.storageKey);
     if (json === null) return [];
-    return JSON.parse(json) as Bike[];
+    const bikes = JSON.parse(json) as Bike[];
+    return bikes.map((bike) => ({ ...bike, parts: bike.parts ?? [] }));
   }
 
   private writeAll(bikes: Bike[]): void {
