@@ -1,11 +1,12 @@
 import { Button, Chip, Stack, TextField, Typography } from "@mui/material";
-import { FormProvider, useFieldArray, useForm, useFormContext, useFormState, useWatch } from "react-hook-form";
+import { FormProvider, useForm, useFormContext, useFormState, useWatch } from "react-hook-form";
 import { toOptions } from "../../libs/utils";
 import { bikeBrands, bikeTypeLabels, frameMaterialLabels, suspensionTypeLabels, type NewBike } from "../../types/bike";
 import { AutocompleteController } from "../controllers/Autocomplete.controller";
 import { RadioGroupController } from "../controllers/RadioGroup.controller";
 import { SelectController } from "../controllers/Select.controller";
 import { SwitchController } from "../controllers/Switch.controller";
+import { PartsFields } from "./PartsFields";
 
 // List of popular bike brands
 const popularBrands = ["Pivot", "Trek", "Specialized"];
@@ -141,42 +142,4 @@ const SubmitButton = ({ children }: { children: React.ReactNode }) => {
   const { isDirty, isSubmitting } = useFormState({ control });
 
   return <Button type="submit" disabled={!isDirty || isSubmitting} variant="outlined">{children}</Button>
-}
-
-const PartsFields = () => {
-  const { control, register, formState: { errors } } = useFormContext<NewBike>();
-  const { fields, append, remove } = useFieldArray({ control, name: "parts" });
-
-  return (
-    <Stack spacing={1}>
-      <Typography variant="subtitle2">Parts</Typography>
-      {fields.map((part, index) => {
-        const { ref: nameRef, ...nameField } = register(`parts.${index}.name`, { required: "Part name is required" });
-        const { ref: costRef, ...costField } = register(`parts.${index}.cost`, { valueAsNumber: true, required: "Cost is required" });
-
-        return (
-          <Stack key={part.id} direction="row" spacing={1}>
-            {/* a TextField for name, one for cost, and a remove button */}
-            <TextField
-              {...nameField}
-              inputRef={nameRef}
-              label="Name"
-              error={!!errors.parts?.[index]?.name}
-              helperText={errors.parts?.[index]?.name?.message}
-            />
-            <TextField
-              {...costField}
-              inputRef={costRef}
-              label="Cost"
-              error={!!errors.parts?.[index]?.cost}
-              helperText={errors.parts?.[index]?.cost?.message}
-            />
-            <Button onClick={() => remove(index)}>Remove</Button>
-          </Stack>
-        )
-      })}
-      <Button onClick={() => append({ name: "", cost: 0 })}>Add part</Button>
-    </Stack>
-
-  );
 }
