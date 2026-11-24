@@ -1,3 +1,4 @@
+import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import { Button, Card, CardActions, CardContent, CardHeader, Chip, Stack, Typography } from "@mui/material";
 import { useState } from 'react';
@@ -5,6 +6,7 @@ import { Link } from 'react-router';
 import { useBikeActions } from '../../hooks/useBikeActions';
 import { bikeTypeLabels, frameMaterialLabels, suspensionTypeLabels, type Bike } from '../../types/bike';
 import ConfirmDialog from '../feedback/ConfirmDialog';
+import { LogRideDialog } from '../maintenance/LogRideDialog';
 
 type BikeCardProps = {
   bike: Bike;
@@ -29,6 +31,7 @@ const DetailRow = ({ label, value, boldLabel = false }: DetailRowProps) => {
 const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
   const { removeBike } = useBikeActions();
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [rideOpen, setRideOpen] = useState(false);
 
   const handleDelete = async () => {
     await removeBike(bike.id);
@@ -70,14 +73,19 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
           </Stack>
         </CardContent>
         <CardActions>
-          <Stack direction="row" spacing={1} sx={{ p: 1 }}>
-            <Button variant="contained" color="primary" onClick={() => onEdit(bike)}>
-              Edit
-            </Button>
-            <Button variant="contained" color="error" onClick={() => setConfirmOpen(true)}>
-              Delete
+          <Stack direction="column" spacing={1} useFlexGap sx={{ p: 1, flexWrap: "wrap" }}>
+            <Button variant="contained" startIcon={<DirectionsBikeIcon />} onClick={() => setRideOpen(true)}>
+              Log ride
             </Button>
             <Button variant="text" component={Link} to={`/bikes/${bike.id}`}>View</Button>
+          </Stack>
+          <Stack direction="column" spacing={1} useFlexGap sx={{ p: 1, flexWrap: "wrap" }}>
+            <Button variant="outlined" color="primary" onClick={() => onEdit(bike)}>
+              Edit
+            </Button>
+            <Button variant="outlined" color="error" onClick={() => setConfirmOpen(true)}>
+              Delete
+            </Button>
           </Stack>
         </CardActions>
       </Card>
@@ -90,6 +98,7 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
         onConfirm={handleDelete}
         confirmColor="error"
       />
+      <LogRideDialog bike={bike} open={rideOpen} onClose={() => setRideOpen(false)} />
     </>
   );
 }
