@@ -22,11 +22,11 @@ export function useBikeActions() {
     }
   };
 
-  const updateBike = async (id: Bike["id"], changes: BikeChanges) => {
+  const updateBike = async (id: Bike["id"], changes: BikeChanges, successMessage?: string) => {
     try {
       const updated = await repository.update(id, changes);
       bikeUpdated(updated);
-      showToast(`Bike ${updated.brand} ${updated.model} Updated`, "success");
+      showToast(successMessage ?? `Bike ${updated.brand} ${updated.model} Updated`, "success");
     } catch (error) {
       showToast(`Could not update bike: ${getErrorMessage(error)}`, "error");
       throw error;

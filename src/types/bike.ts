@@ -1,4 +1,7 @@
-export type BikeType = "gravel" | "mountain" | "commuter" | "dj" | "bmx";
+import type { IsoDate } from "../libs/dates";
+import type { BikePart, Ride } from "./part";
+
+export type BikeType ="gravel" | "mountain" | "commuter" | "dj" | "bmx";
 export type FrameMaterial = "aluminum" | "carbon-fiber" | "steel" | "titanium";
 export type SuspensionType = "full-suspension" | "hardtail" | "full-rigid";
 
@@ -12,7 +15,10 @@ export type Bike = {
   type: BikeType;
   isElectric: boolean;
   serialNumber?: string;
+  /** When the bike was bought or built. New parts default their install date to this. */
+  acquiredDate?: IsoDate;
   parts: BikePart[];
+  rides: Ride[];
 }
 
 export const bikeTypeLabels: Record<BikeType, string> = {
@@ -53,8 +59,3 @@ export const bikeBrands = [
 ] as const;
 
 export const toNewBike = ({ id, ...rest }: Bike): NewBike => rest;
-
-export type BikePart = {
-  "name": string;
-  "cost": number;
-}

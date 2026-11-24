@@ -1,5 +1,17 @@
 import type { Bike, BikeChanges, NewBike } from "../types/bike";
+import type { BikePart } from "../types/part";
 import type { BikeRepository } from "./BikeRepository";
+
+/** Shape of parts saved before parts had types: { name, cost }. */
+type LegacyPart = { name: string; cost?: number };
+
+/** What may be sitting in localStorage: older records can lack newer fields. */
+type StoredBike = Omit<Bike, "parts" | "rides"> & {
+  parts?: (BikePart | LegacyPart)[];
+  rides?: Bike["rides"];
+};
+
+const isLegacyPart = (part: BikePart | LegacyPart): part is LegacyPart => !("type" in part);
 
 export class LocalStorageBikeRepository implements BikeRepository {
   private readonly storageKey = "bikes";
@@ -7,8 +19,29 @@ export class LocalStorageBikeRepository implements BikeRepository {
   private readAll(): Bike[] {
     const json = localStorage.getItem(this.storageKey);
     if (json === null) return [];
-    const bikes = JSON.parse(json) as Bike[];
-    return bikes.map((bike) => ({ ...bike, parts: bike.parts ?? [] }));
+    const stored = JSON.parse(json) as StoredBike[];
+
+    let migrated = false;
+    const bikes = stored.map((bike): Bike => {
+      const parts = (bike.parts ?? []).map((part): BikePart => {
+        if (!isLegacyPart(part)) return part;
+        // Old parts were { name, cost }. Keep the name as the model; cost was dropped.
+        migrated = true;
+        return {
+          id: crypto.randomUUID(),
+          type: "other",
+          brand: "",
+          model: part.name,
+          installDate: bike.acquiredDate ?? `${bike.year}-01-01`,
+        };
+      });
+      if (!bike.parts || !bike.rides) migrated = true;
+      return { ...bike, parts, rides: bike.rides ?? [] };
+    });
+
+    // Persist the migration once, so generated part ids stay stable between reads.
+    if (migrated) this.writeAll(bikes);
+    return bikes;
   }
 
   private writeAll(bikes: Bike[]): void {

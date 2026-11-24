@@ -1,5 +1,6 @@
 import { Button, Chip, Stack, TextField, Typography } from "@mui/material";
 import { FormProvider, useForm, useFormContext, useFormState, useWatch } from "react-hook-form";
+import { todayIso } from "../../libs/dates";
 import { toOptions } from "../../libs/utils";
 import { bikeBrands, bikeTypeLabels, frameMaterialLabels, suspensionTypeLabels, type NewBike } from "../../types/bike";
 import { AutocompleteController } from "../controllers/Autocomplete.controller";
@@ -22,7 +23,8 @@ const suspensionTypeOptions = toOptions(suspensionTypeLabels);
 
 const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProps) => {
   const methods = useForm<NewBike>({
-    defaultValues: { isElectric: false, serialNumber: undefined, parts: [], ...initialValues },
+    // Collections default to [] so the bike always has them; parts/rides are edited on the detail page.
+    defaultValues: { isElectric: false, serialNumber: undefined, acquiredDate: undefined, parts: [], rides: [], ...initialValues },
   });
   const { register, handleSubmit, reset, control, formState: { errors } } = methods;
 
@@ -49,6 +51,11 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
 
   const { ref: serialNumberRef, ...serialNumberField } = register("serialNumber", {
     setValueAs: (value: string) => value.trim() === "" ? undefined : value.trim(),
+  });
+
+  const { ref: acquiredDateRef, ...acquiredDateField } = register("acquiredDate", {
+    setValueAs: (value: string) => value === "" ? undefined : value,
+    validate: (value) => !value || value <= todayIso() || "Date can't be in the future",
   });
 
   return (
@@ -89,6 +96,15 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
           label="Serial Number"
           error={!!errors.serialNumber}
           helperText={errors.serialNumber?.message}
+        />
+        <TextField
+          {...acquiredDateField}
+          inputRef={acquiredDateRef}
+          type="date"
+          label="Acquired / Built"
+          error={!!errors.acquiredDate}
+          helperText={errors.acquiredDate?.message ?? "New parts default their install date to this"}
+          slotProps={{ inputLabel: { shrink: true } }}
         />
         <SelectController
           name="frameMaterial"

@@ -69,7 +69,7 @@ Zustand is a small, fast, and scalable state management solution for React appli
 - Ask "what is the simplest version that works?" first, then iterate.
   1. **Make it work**: get a basic version running that solves the problem. **(Done)**
   2. **Make it right**: refactor and improve code quality, readability, and maintainability. **(In Progress)**
-  3. **Make it fast**: optimize performance and efficiency.
+  3. **Make it fast**: optimize performance and efficiency. **(In Progress)**
 
 **4. Build things that stretch you**
 
