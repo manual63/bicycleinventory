@@ -72,7 +72,7 @@ export const BikeDetailPage = () => {
             </Typography>
           </Box>
           <Button variant="contained" size="large" startIcon={<DirectionsBikeIcon />} onClick={() => setRideOpen(true)}>
-            Log ride
+            Log miles
           </Button>
         </Stack>
       </Box>

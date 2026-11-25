@@ -13,7 +13,7 @@ type LogRideDialogProps = {
 };
 
 /**
- * The one "log a ride" dialog, used from the bike list, the bike page header, and the ride log.
+ * The one "log your mileage" dialog, used from the bike list, the bike page header, and the ride log.
  * It owns the save so callers only control open/close.
  */
 export const LogRideDialog = ({ bike, open, onClose }: LogRideDialogProps) => {
@@ -28,7 +28,7 @@ export const LogRideDialog = ({ bike, open, onClose }: LogRideDialogProps) => {
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
       <DialogTitle sx={{ pb: 1 }}>
-        Log a ride
+        Log your miles
         <Typography variant="body2" color="text.secondary">
           {bike.brand} {bike.model}
         </Typography>
@@ -39,7 +39,7 @@ export const LogRideDialog = ({ bike, open, onClose }: LogRideDialogProps) => {
           <Typography variant="caption" color="text.secondary" sx={{ textAlign: "center" }}>
             {miles > 0
               ? `${miles.toLocaleString()} mi logged so far. Every mile counts toward the next service.`
-              : "First ride! Every mile counts toward the next service."}
+              : "No miles logged yet. Every mile counts toward the next service."}
           </Typography>
           <RideForm onSubmit={handleSubmit} onCancel={onClose} />
         </Stack>

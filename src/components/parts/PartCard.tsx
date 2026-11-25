@@ -94,7 +94,7 @@ export const PartCard = ({ part, health, highlighted = false, onEdit, onDelete, 
               <Typography variant="body2" color="text.secondary">
                 {health.dueDate
                   ? `${health.estimated ? "≈ " : ""}${formatDate(health.dueDate)}`
-                  : "Log rides to estimate"}
+                  : "Log miles to estimate"}
               </Typography>
             </Stack>
             <LinearProgress
