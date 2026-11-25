@@ -82,6 +82,7 @@ export const BikesPage = () => {
             initialValues={dialog.mode === "edit" ? toNewBike(dialog.bike) : undefined}
             onSubmit={handleSubmit}
             buttonText={dialog.mode === "edit" ? "Save Changes" : "Add Bike"}
+            onCancel={closeDialog}
           />
         </DialogContent>
       </Dialog>

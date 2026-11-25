@@ -14,6 +14,7 @@ const popularBrands = ["Pivot", "Trek", "Specialized"];
 type BikeFormProps = {
   initialValues?: Partial<NewBike>;
   onSubmit: (data: NewBike) => void | Promise<void>;
+  onCancel: () => void;
   buttonText?: string;
 };
 
@@ -21,7 +22,7 @@ const bikeTypeOptions = toOptions(bikeTypeLabels);
 const frameMaterialOptions = toOptions(frameMaterialLabels);
 const suspensionTypeOptions = toOptions(suspensionTypeLabels);
 
-const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProps) => {
+const BikeForm = ({ initialValues, onSubmit, onCancel, buttonText = "Save" }: BikeFormProps) => {
   const methods = useForm<NewBike>({
     // Collections default to [] so the bike always has them; parts/rides are edited on the detail page.
     defaultValues: { isElectric: false, serialNumber: undefined, acquiredDate: undefined, parts: [], rides: [], ...initialValues },
@@ -132,9 +133,12 @@ const BikeForm = ({ initialValues, onSubmit, buttonText = "Save" }: BikeFormProp
           label="Electric"
           control={control}
         />
-        <SubmitButton>
-          {buttonText}
-        </SubmitButton>
+        <Stack direction="row" sx={{ justifyContent: "flex-end" }} spacing={2}>
+          <Button variant="text" onClick={onCancel}>Cancel</Button>
+          <SubmitButton>
+            {buttonText}
+          </SubmitButton>
+        </Stack>
       </Stack>
     </FormProvider>
   );

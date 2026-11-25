@@ -1,6 +1,8 @@
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import { Button, Card, CardActions, CardContent, CardHeader, Chip, Stack, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardHeader, Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useBikeActions } from '../../hooks/useBikeActions';
@@ -50,6 +52,24 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
           }
           subheader={`${bike.year} \u00B7 ${bikeTypeLabels[bike.type]}`}
           slotProps={{ title: { variant: "h5", component: "h2" } }}
+          action={
+            <Stack direction="row">
+              <Tooltip title="Edit bike">
+                <IconButton aria-label={`Edit ${bike.brand} ${bike.model}`} onClick={() => onEdit(bike)}>
+                  <EditOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete bike">
+                <IconButton
+                  aria-label={`Delete ${bike.brand} ${bike.model}`}
+                  onClick={() => setConfirmOpen(true)}
+                  sx={{ "&:hover": { color: "error.main" } }}
+                >
+                  <DeleteOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </Stack>
+          }
         />
         <CardContent sx={{ flexGrow: 1, pt: 0 }}>
           <Stack spacing={1}>
@@ -71,21 +91,14 @@ const BikeCard = ({ bike, onEdit }: BikeCardProps) => {
               <DetailRow label="Parts" value={bike.parts.length.toString()} />
             )}
           </Stack>
+
         </CardContent>
         <CardActions>
-          <Stack direction="column" spacing={1} useFlexGap sx={{ p: 1, flexWrap: "wrap" }}>
+          <Stack direction="row" spacing={1} sx={{ p: 1, width: "100%", justifyContent: "space-between" }}>
             <Button variant="contained" startIcon={<DirectionsBikeIcon />} onClick={() => setRideOpen(true)}>
-              Log ride
+              Log miles
             </Button>
             <Button variant="text" component={Link} to={`/bikes/${bike.id}`}>View</Button>
-          </Stack>
-          <Stack direction="column" spacing={1} useFlexGap sx={{ p: 1, flexWrap: "wrap" }}>
-            <Button variant="outlined" color="primary" onClick={() => onEdit(bike)}>
-              Edit
-            </Button>
-            <Button variant="outlined" color="error" onClick={() => setConfirmOpen(true)}>
-              Delete
-            </Button>
           </Stack>
         </CardActions>
       </Card>

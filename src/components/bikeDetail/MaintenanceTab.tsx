@@ -34,7 +34,7 @@ export const MaintenanceTab = ({ bike, entries, today, onSelectPart }: Maintenan
           {unscheduled.length > 0 && (
             <Alert severity="info" variant="outlined">
               <Typography variant="body2" sx={{ mb: 1 }}>
-                Log a few rides to put these on the calendar:
+                Log some miles to put these on the calendar:
               </Typography>
               <List dense disablePadding>
                 {unscheduled.map(({ part, health }) => (

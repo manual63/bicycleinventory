@@ -25,10 +25,11 @@ const features: Feature[] = [
     to: "/bikes",
   },
   {
-    title: "Maintenance Log",
+    title: "Maintenance and Log Miles",
     description: "Log service and part swaps.",
     icon: BuildIcon,
-    status: "comingSoon",
+    status: "available",
+    to: "/bikes",
   },
   {
     title: "Tire Pressure",
@@ -63,7 +64,7 @@ export const WelcomePage = () => {
             variant="h6"
             color="text.secondary"
             sx={{ fontWeight: 400, maxWidth: 520 }}>
-            Your bikes, parts, and rides — all in one garage.
+            Your bikes, parts, and maintenance — all in one garage.
           </Typography>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
             <Button component={Link} to="/bikes" variant="contained" size="large">View My Bikes</Button>

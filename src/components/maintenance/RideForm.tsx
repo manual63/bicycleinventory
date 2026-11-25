@@ -30,7 +30,7 @@ export const RideForm = ({ onSubmit, onCancel }: RideFormProps) => {
         <TextField
           {...withInputRef(register("date", {
             required: "Date is required",
-            validate: (v) => v <= todayIso() || "Can't log a future ride",
+            validate: (v) => v <= todayIso() || "Can't log miles in the future",
           }))}
           type="date"
           label="Date"
@@ -58,7 +58,7 @@ export const RideForm = ({ onSubmit, onCancel }: RideFormProps) => {
       </Stack>
       <TextField {...withInputRef(register("note"))} label="Note" placeholder="Trail, route, conditions…" />
       <Stack direction="row" spacing={2}>
-        <Button type="submit" variant="contained" loading={isSubmitting}>Log Ride</Button>
+        <Button type="submit" variant="contained" loading={isSubmitting}>Log miles</Button>
         <Button variant="text" onClick={onCancel}>Cancel</Button>
       </Stack>
     </Stack>

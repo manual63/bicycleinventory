@@ -32,10 +32,10 @@ export const useBikeMaintenance = (bike: Bike) => {
     );
 
   const addRide = (ride: NewRide) =>
-    saveRides([...bike.rides, { ...ride, id: crypto.randomUUID() }], `Logged ${ride.miles} mi ride`);
+    saveRides([...bike.rides, { ...ride, id: crypto.randomUUID() }], `Logged ${ride.miles} mi`);
 
   const removeRide = (id: Ride["id"]) =>
-    saveRides(bike.rides.filter((ride) => ride.id !== id), "Ride removed");
+    saveRides(bike.rides.filter((ride) => ride.id !== id), "Mileage entry removed");
 
   return { addPart, updatePart, removePart, logService, addRide, removeRide };
 };

@@ -30,9 +30,9 @@ export const RideLog = ({ bike, today }: RideLogProps) => {
     <Card variant="outlined" sx={{ borderRadius: 4 }}>
       <CardContent>
         <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-          <Typography variant="h6" component="h3">Ride log</Typography>
+          <Typography variant="h6" component="h3">Mileage log</Typography>
           <Button size="small" variant="outlined" startIcon={<AddIcon />} onClick={() => setOpen(true)}>
-            Log ride
+            Log miles
           </Button>
         </Stack>
 
@@ -52,7 +52,7 @@ export const RideLog = ({ bike, today }: RideLogProps) => {
 
         {recent.length === 0 ? (
           <Box sx={{ py: 2 }}>
-            <Typography variant="body2" color="text.secondary">No rides logged yet.</Typography>
+            <Typography variant="body2" color="text.secondary">No miles logged yet.</Typography>
           </Box>
         ) : (
           <List dense disablePadding sx={{ mt: 1 }}>
@@ -61,7 +61,7 @@ export const RideLog = ({ bike, today }: RideLogProps) => {
                 key={ride.id}
                 disableGutters
                 secondaryAction={
-                  <IconButton edge="end" aria-label="Delete ride" size="small" onClick={() => removeRide(ride.id).catch(() => {})}>
+                  <IconButton edge="end" aria-label="Delete mileage entry" size="small" onClick={() => removeRide(ride.id).catch(() => {})}>
                     <DeleteOutlinedIcon fontSize="small" />
                   </IconButton>
                 }
